@@ -66,7 +66,6 @@ int main(void) {
     touchPosition touch;
 
     videoSetModeSub(MODE_5_2D);
-    //vramSetBankA(VRAM_A_MAIN_BG);
     vramSetBankC(VRAM_C_SUB_BG_0x06200000);
 
     int bg3 = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 0, 0);

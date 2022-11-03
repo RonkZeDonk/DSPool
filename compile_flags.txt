@@ -1,0 +1,8 @@
+-lnds9
+-DARM9
+-I/opt/devkitpro/libnds/include
+-L/opt/devkitpro/libnds/lib
+-I/opt/devkitpro/devkitPPC/powerpc-eabi/include
+-Iinclude
+-Ibuild
+-Wall

@@ -1,5 +1,6 @@
 #include "nds/arm9/background.h"
 #include "nds/arm9/video.h"
+#include "nds/dma.h"
 #include "nds/interrupts.h"
 #include <nds.h>
 #include <stdio.h>
@@ -9,6 +10,7 @@
 #include "nds/timers.h"
 #include "table.h"
 
+#include "poolTable_image.h"
 
 /**
  * Puts the DS' thread to sleep for n frames
@@ -33,7 +35,10 @@ int main(void) {
     int ballRandomIndex;
     int moveBy = 50;
 
-   // Create a console for the top screen
+    // Top screen
+    // -------------------------
+
+    // Create a console for the top screen
     PrintConsole topScreen;
     videoSetMode(MODE_0_2D);
     vramSetBankA(VRAM_A_MAIN_BG);
@@ -54,8 +59,20 @@ int main(void) {
    // Display table
     printTable(table);
 
+    // Bottom Screen
+    // -------------------------
+
     // Used to see where the user is touching
     touchPosition touch;
+
+    videoSetModeSub(MODE_5_2D);
+    //vramSetBankA(VRAM_A_MAIN_BG);
+    vramSetBankC(VRAM_C_SUB_BG_0x06200000);
+
+    int bg3 = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 0, 0);
+
+    dmaCopy(poolTable_imageBitmap, bgGetGfxPtr(bg3), 256*256);
+    dmaCopy(poolTable_imagePal, BG_PALETTE_SUB, 256*2);
 
     while(1) {
         for (int i = 0; i < 15; i++) {

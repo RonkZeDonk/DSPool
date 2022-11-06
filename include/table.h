@@ -15,13 +15,16 @@
  * Colours for pool balls
  */
 typedef enum {
-    Red, Blue
+    ColorTeam1, ColorTeam2
 } BallColour;
 
 /**
  * Pool ball struct
  */
 typedef struct {
+    // Ball's ID. Used in OAM
+    int id;
+
     // Ball colour
     BallColour colour;
 
@@ -42,6 +45,8 @@ typedef struct {
 typedef struct {
     // Each pool table contains 15 balls
     Ball balls[15];
+
+ //   u16* ball_sprite_mem;
 } PoolTable;
 
 // ******************
@@ -51,13 +56,14 @@ typedef struct {
 /**
  * Initalize pool ball
  *
+ * @param id Ball's ID. Used in the OAM
  * @param colour Ball colour
  * @param x x-position of the ball
  * @param y y-position of the ball
  *
  * @returns A constructed Ball
  */
-Ball initBall(BallColour colour, int x, int y);
+Ball initBall(int id, BallColour colour, int x, int y);
 
 /**
  * Updates a ball's velocity based on a constant deceleration
@@ -65,6 +71,13 @@ Ball initBall(BallColour colour, int x, int y);
  * @param ball The ball to update
  */
 void updateBallPosition(Ball* ball);
+
+/**
+ * Draws the ball
+ *
+ * @param ball The ball to update
+ */
+void renderBall(Ball* ball);
 
 // *******************
 // * TABLE FUNCTIONS *
@@ -81,6 +94,13 @@ PoolTable initTable();
  * @param table the memory address to the table which is to be randomized
  */
 void randomizeBallPositions(PoolTable* table);
+
+/**
+ * Render all the balls on the table
+ *
+ * @param table The table to render
+ */
+void renderTable(PoolTable* table);
 
 /**
  * Prints out the x and y coords of every ball in a table.

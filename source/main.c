@@ -35,7 +35,8 @@ void sleepForSec(int seconds) {
 //---------------------------------------------------------------------------------
 int main(void) {
 //---------------------------------------------------------------------------------
-    int ballRandomIndex;
+    int ballRndMoveAmount;
+    int selectedBall = 0;
 
     // Used to see where the user is touching
     touchPosition touch;
@@ -51,9 +52,6 @@ int main(void) {
 
     dmaCopy(poolTable_imageBitmap, bgGetGfxPtr(bg3), poolTable_imageBitmapLen);
     dmaCopy(poolTable_imagePal, BG_PALETTE_SUB, poolTable_imagePalLen);
-
-    // Ball sprite
-    Ball tb = initBall(15, ColorTeam1, 229, 165);
 
     // Create a console for the top screen
     PrintConsole topScreen;
@@ -90,19 +88,14 @@ int main(void) {
             iprintf("--------------------------------\n");
         }
 
-        {
-            // Print test ball's pos
-            iprintf("\x1b[19;0H P(%6d,%6d)\tV(%3d,%3d)\n",
-                    tb.x, tb.y, tb.xVel, tb.yVel
-                    );
-        }
+        // Show selected ball
+        iprintf("\x1b[%d;0H>", selectedBall + 3);
 
         // Print out the user's touch values
         touchRead(&touch);
         iprintf("\x1b[21;0H\tTouch x = %04i, %04i\n", touch.rawx, touch.px);
         iprintf("\tTouch y = %04i, %04i\n", touch.rawy, touch.py);
 
-        renderBall(&tb);
         renderTable(&table);
 
         // ---------------------
@@ -131,24 +124,42 @@ int main(void) {
 
         // TODO remove debug statements
         if (nonrepeatingKeysHeld & KEY_B) {
-            ballRandomIndex = rand() % 15;
+            ballRndMoveAmount = rand() % 30;
             // Increase a random ball's velocity
-            table.balls[ballRandomIndex].xVel -= rand() % 30;
-            table.balls[ballRandomIndex].yVel -= rand() % 30;
+            table.balls[selectedBall].xVel -= ballRndMoveAmount;
+            table.balls[selectedBall].yVel -= ballRndMoveAmount;
         }
 
         // TODO remove debug statements
         if (nonrepeatingKeysHeld & KEY_X) {
-            ballRandomIndex = rand() % 15;
+            ballRndMoveAmount = rand() % 30;
             // Increase a random ball's velocity
-            table.balls[ballRandomIndex].xVel += rand() % 30;
-            table.balls[ballRandomIndex].yVel += rand() % 30;
+            table.balls[selectedBall].xVel += ballRndMoveAmount;
+            table.balls[selectedBall].yVel += ballRndMoveAmount;
         }
 
-        if (keys & KEY_UP) tb.y += -1;
-        if (keys & KEY_DOWN) tb.y += 1;
-        if (keys & KEY_LEFT) tb.x += -1;
-        if (keys & KEY_RIGHT) tb.x += 1;
+        // TODO remove debug statements
+        if (nonrepeatingKeysHeld & KEY_Y) {
+            // Change velocity by -30 - 30 spaces
+            for (int i = 0; i < 15; i++) {
+                // 50% chance of moving the ball
+                if (rand() % 2 == 0) {
+                    ballRndMoveAmount = rand() % 60 - 30;
+                    table.balls[i].xVel += ballRndMoveAmount;
+                    table.balls[i].yVel += ballRndMoveAmount;
+                }
+            }
+        }
+
+        // TODO REMOVE: Change currently selected ball
+        if (nonrepeatingKeysHeld & KEY_L && selectedBall > 0) selectedBall--;
+        if (nonrepeatingKeysHeld & KEY_R && selectedBall < 14) selectedBall++;
+
+        // TODO REMOVE: Move the currently selected ball
+        if (keys & KEY_UP)    table.balls[selectedBall].y += -1;
+        if (keys & KEY_DOWN)  table.balls[selectedBall].y += 1;
+        if (keys & KEY_LEFT)  table.balls[selectedBall].x += -1;
+        if (keys & KEY_RIGHT) table.balls[selectedBall].x += 1;
     }
 
     return 0;

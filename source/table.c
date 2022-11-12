@@ -39,12 +39,24 @@ void updateBallPosition(Ball* ball) {
     if (abs(ball->xVel) < DELTA_VEL) { ball->xVel = 0; }
     if (abs(ball->yVel) < DELTA_VEL) { ball->yVel = 0; }
 
-    // Clamp balls to the inside of the pool table
-    // TODO for now we are making the wall absorb all the energy (no bouncing)
-    if (ball->x < 15) ball->x = 15;
-    if (ball->y < 15) ball->y = 15;
-    if (ball->x > 229) ball->x = 229;
-    if (ball->y > 165) ball->y = 165;
+    // Clamp balls to the inside of the pool table and flip their velocities
+    // TODO check if behaviour produced if natural-looking
+    if (ball->x < 15)  {
+        ball->x = 15;
+        ball->xVel *= -1;
+    }
+    if (ball->y < 15)  {
+        ball->y = 15;
+        ball->yVel *= -1;
+    }
+    if (ball->x > 229) {
+        ball->x = 229;
+        ball->xVel *= -1;
+    }
+    if (ball->y > 165) {
+        ball->y = 165;
+        ball->yVel *= -1;
+    }
 }
 
 void renderBall(Ball* ball) {

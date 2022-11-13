@@ -70,14 +70,11 @@ void renderBall(Ball* ball) {
 PoolTable initTable() {
     PoolTable table;
 
-    // TODO Properly initilize the table + coords
     for (int i = 0; i < 15; i++) {
-        table.balls[i] = initBall(i,
-                ColorTeam1,
-                (rand() % POS_MAX) + 15,
-                (rand() % POS_MAX) + 15
-                );
+        table.balls[i] = initBall(i, ColorTeam1, 0, 0 );
     };
+
+    setBalls(&table);
 
     dmaCopy(poolBall_imagePal, SPRITE_PALETTE_SUB, poolBall_imagePalLen);
     // TODO make this not a global. a part of the table struct ideally
@@ -87,10 +84,19 @@ PoolTable initTable() {
     return table;
 }
 
-void randomizeBallPositions(PoolTable* table) {
+void setBalls(PoolTable *table) {
+    // [ball id][x, y coords]
+    int tableLUT[15][2] = {
+        { 79, 81 }, { 69, 75 }, { 69, 87 },  // Balls 0-2
+        { 59, 69 }, { 59, 81 }, { 59, 93 },  // Balls 3-5
+        { 49, 63 }, { 49, 75 }, { 49, 87 },  // Balls 6-8
+        { 49, 99 }, { 39, 57 }, { 39, 69 },  // Balls 9-11
+        { 39, 81 }, { 39, 93 }, { 39, 105 }, // Balls 12-15
+    };
+
     for (int i = 0; i < 15; i++) {
-        table->balls[i].x = (rand() % POS_MAX) + 15;
-        table->balls[i].y = (rand() % POS_MAX) + 15;
+        table->balls[i].x = tableLUT[i][0];
+        table->balls[i].y = tableLUT[i][1];
     }
 }
 

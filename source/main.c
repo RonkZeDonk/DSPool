@@ -117,9 +117,9 @@ int main(void) {
         if (keys & KEY_START) break;
 
         // TODO Remove debug statements
-        // Key pressed was `A` then reroll the ball positions
+        // Key pressed was `A` then move balls back to default place
         if (nonrepeatingKeysHeld & KEY_A) {
-            randomizeBallPositions(&table);
+            setBalls(&table);
         }
 
         // TODO remove debug statements

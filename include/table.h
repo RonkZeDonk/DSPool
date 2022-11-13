@@ -89,11 +89,11 @@ void renderBall(Ball* ball);
 PoolTable initTable();
 
 /**
- * Randomizes the positions of a given pool table.
+ * Set balls on table
  *
- * @param table the memory address to the table which is to be randomized
+ * @param table The table which is to be set
  */
-void randomizeBallPositions(PoolTable* table);
+void setBalls(PoolTable *table);
 
 /**
  * Render all the balls on the table

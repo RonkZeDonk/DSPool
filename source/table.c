@@ -107,6 +107,7 @@ void renderTable(PoolTable* table) {
 }
 
 void printTable(PoolTable table) {
+    iprintf("\x1b[3;0H");
     for (int i = 0; i < 15; i++) {
         iprintf(" P(%6d,%6d)\tV(%3d,%3d)\n",
                 table.balls[i].x,
@@ -117,5 +118,6 @@ void printTable(PoolTable table) {
                 );
         iprintf("                               \r");
     }
+    iprintf("--------------------------------\n");
 }
 

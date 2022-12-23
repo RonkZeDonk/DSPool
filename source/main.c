@@ -41,52 +41,52 @@ int main(void) {
     // Used to see where the user is touching
     touchPosition touch;
 
+
+    // Initalize bottom screen
     videoSetModeSub(MODE_5_2D);
     vramSetBankC(VRAM_C_SUB_BG_0x06200000);
     vramSetBankD(VRAM_D_SUB_SPRITE);
-    // set sprite mode
+
+    // Set sprite mode
     oamInit(&oamSub, SpriteMapping_1D_128, false);
 
     // Set background
     int bg3 = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 0, 0);
-
     dmaCopy(poolTable_imageBitmap, bgGetGfxPtr(bg3), poolTable_imageBitmapLen);
     dmaCopy(poolTable_imagePal, BG_PALETTE_SUB, poolTable_imagePalLen);
+    // --- end bottom screen init
 
+    // Initalize top screen
     // Create a console for the top screen
     PrintConsole topScreen;
     videoSetMode(MODE_0_2D);
     vramSetBankA(VRAM_A_MAIN_BG);
     consoleInit(&topScreen, 3, BgType_Text4bpp, BgSize_T_256x256, 31, 0, true, true);
 
-    // Use main (top; idk if this is main screen) screen console
+    // Put console on the top screen
     consoleSelect(&topScreen);
+    // --- end top screen init
 
     // Seed rand
     srand(time(NULL));
 
-    iprintf("\n         Current Table\n");
+    iprintf("\n");
+    iprintf("         Current Table:        \n");
     iprintf("--------------------------------\n");
 
     // Create pool table
     PoolTable table = initTable();
 
-    // Display table
-    printTable(table);
-
     while(1) {
+        // TODO move this into it's own function in table.c
         for (int i = 0; i < 15; i++) {
             if (table.balls[i].xVel != 0 || table.balls[i].yVel != 0) {
                 updateBallPosition(&table.balls[i]);
             }
         }
 
-        {
-            // Print out the ball positions
-            iprintf("\x1b[3;0H");
-            printTable(table);
-            iprintf("--------------------------------\n");
-        }
+        // Print out the ball positions
+        printTable(table);
 
         // Show selected ball
         iprintf("\x1b[%d;0H>", selectedBall + 3);

@@ -43,6 +43,14 @@ void renderTable(PoolTable* table) {
     }
 }
 
+void updateTablePositions(PoolTable* table) {
+    for (int i = 0; i < 15; i++) {
+        if (table->balls[i].xVel != 0 || table->balls[i].yVel != 0) {
+            updateBallPosition(&table->balls[i]);
+        }
+    }
+}
+
 void printTable(PoolTable table) {
     iprintf("\x1b[3;0H");
     for (int i = 0; i < 15; i++) {

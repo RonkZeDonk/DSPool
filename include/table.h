@@ -47,6 +47,11 @@ void setBalls(PoolTable *table);
 void renderTable(PoolTable* table);
 
 /**
+ * Update the positions of all the balls on the table
+ */
+void updateTablePositions(PoolTable* table);
+
+/**
  * Prints out the x and y coords of every ball in a table.
  */
 void printTable(PoolTable table);

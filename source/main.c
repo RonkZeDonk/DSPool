@@ -78,12 +78,8 @@ int main(void) {
     PoolTable table = initTable();
 
     while(1) {
-        // TODO move this into it's own function in table.c
-        for (int i = 0; i < 15; i++) {
-            if (table.balls[i].xVel != 0 || table.balls[i].yVel != 0) {
-                updateBallPosition(&table.balls[i]);
-            }
-        }
+        // Update the balls based on acumulated velocites
+        updateTablePositions(&table);
 
         // Print out the ball positions
         printTable(table);

@@ -1,5 +1,4 @@
 #include "table.h"
-#include "nds/arm9/sprite.h"
 
 #include "poolBall_image.h"
 

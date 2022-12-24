@@ -1,16 +1,6 @@
-#include "nds/arm9/background.h"
-#include "nds/arm9/input.h"
-#include "nds/arm9/sprite.h"
-#include "nds/arm9/video.h"
-#include "nds/dma.h"
-#include "nds/interrupts.h"
 #include <nds.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
 
-#include "nds/timers.h"
-#include "poolBall_image.h"
 #include "table.h"
 
 #include "poolTable_image.h"

@@ -1,9 +1,8 @@
 #include <nds.h>
+#include <gl2d.h>
 #include <time.h>
 
 #include "table.h"
-
-#include "poolTable_image.h"
 
 /**
  * Puts the DS' thread to sleep for n frames
@@ -21,40 +20,29 @@ void sleepForSec(int seconds) {
     sleepForNFrames(60 * seconds);
 }
 
-
 //---------------------------------------------------------------------------------
 int main(void) {
 //---------------------------------------------------------------------------------
     int ballRndMoveAmount;
     int selectedBall = 0;
 
+    // Sprites used in the table
+    TableSprites sprites;
+
     // Used to see where the user is touching
     touchPosition touch;
 
-
     // Initalize bottom screen
-    videoSetModeSub(MODE_5_2D);
-    vramSetBankC(VRAM_C_SUB_BG_0x06200000);
-    vramSetBankD(VRAM_D_SUB_SPRITE);
-
-    // Set sprite mode
-    oamInit(&oamSub, SpriteMapping_1D_128, false);
-
-    // Set background
-    int bg3 = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 0, 0);
-    dmaCopy(poolTable_imageBitmap, bgGetGfxPtr(bg3), poolTable_imageBitmapLen);
-    dmaCopy(poolTable_imagePal, BG_PALETTE_SUB, poolTable_imagePalLen);
+    videoSetMode(MODE_5_3D);
+    lcdMainOnBottom();
+    glScreen2D();
+    vramSetBankA(VRAM_A_TEXTURE);
+    vramSetBankE(VRAM_E_TEX_PALETTE);
     // --- end bottom screen init
 
     // Initalize top screen
     // Create a console for the top screen
-    PrintConsole topScreen;
-    videoSetMode(MODE_0_2D);
-    vramSetBankA(VRAM_A_MAIN_BG);
-    consoleInit(&topScreen, 3, BgType_Text4bpp, BgSize_T_256x256, 31, 0, true, true);
-
-    // Put console on the top screen
-    consoleSelect(&topScreen);
+    consoleDemoInit();
     // --- end top screen init
 
     // Seed rand
@@ -65,7 +53,7 @@ int main(void) {
     iprintf("--------------------------------\n");
 
     // Create pool table
-    PoolTable table = initTable();
+    PoolTable table = initTable(&sprites);
 
     while(1) {
         // Update the balls based on acumulated velocites
@@ -82,17 +70,21 @@ int main(void) {
         iprintf("\x1b[21;0H\tTouch x = %04i, %04i\n", touch.rawx, touch.px);
         iprintf("\tTouch y = %04i, %04i\n", touch.rawy, touch.py);
 
-        renderTable(&table);
+        glBegin2D();
+        {
+            renderTable(&table);
+        }
+        glEnd2D();
 
-        // ---------------------
-        // End of game loop area
-        // ---------------------
+        // Clear the sprites before redrawing
+        glFlush(0);
 
         // Wait for frame step (60 times per second)
         swiWaitForVBlank();
 
-        // Flush OAM (basically clear the sprites before redrawing)
-        oamUpdate(&oamSub);
+        // ---------------------
+        // End of game loop area
+        // ---------------------
 
         // Get the currently pressed keys
         scanKeys();

@@ -1,18 +1,26 @@
 #include "table.h"
 
-#include "poolBall_image.h"
+#include "poolBallA_image.h"
+#include "poolBallB_image.h"
+#include "cueBall_image.h"
+#include "blackBall_image.h"
+#include "poolTable_image.h"
 
-u16* ball_gfx_mem;
-
-PoolTable initTable() {
+PoolTable initTable(TableSprites* sprites) {
     PoolTable table;
 
-    dmaCopy(poolBall_imagePal, SPRITE_PALETTE_SUB, poolBall_imagePalLen);
-    ball_gfx_mem = oamAllocateGfx(&oamSub,
-            SpriteSize_16x16, SpriteColorFormat_256Color);
+    loadTableSprites(sprites);
+    table.sprites = sprites;
 
     for (int i = 0; i < 15; i++) {
-        table.balls[i] = initBall(i, ColorTeam1, ball_gfx_mem, 0, 0);
+        // TODO: change to index 0 later
+        if (i == 4) {
+            table.balls[i] = initBall(i, BlackBall, sprites->blackBall, 0, 0);
+        } else if (i % 2 == 0) {
+            table.balls[i] = initBall(i, TeamA, sprites->ballA, 0, 0);
+        } else {
+            table.balls[i] = initBall(i, TeamB, sprites->ballB, 0, 0);
+        }
     };
 
     setBalls(&table);
@@ -20,7 +28,70 @@ PoolTable initTable() {
     return table;
 }
 
+void loadTableSprites(TableSprites* sprites) {
+    glLoadTileSet(
+            sprites->background,
+            256, 256, 256, 256,
+            GL_RGB256,
+            TEXTURE_SIZE_256, TEXTURE_SIZE_256,
+            GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF |
+                GL_TEXTURE_COLOR0_TRANSPARENT,
+            256,
+            (u16*) poolTable_imagePal,
+            (u8*)  poolTable_imageBitmap
+        );
+    glLoadTileSet(
+            sprites->ballA,
+            32, 32, 32, 32,
+            GL_RGB16,
+            TEXTURE_SIZE_32, TEXTURE_SIZE_32,
+            GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF |
+                GL_TEXTURE_COLOR0_TRANSPARENT,
+            16,
+            (u16*) poolBallA_imagePal,
+            (u8*)  poolBallA_imageBitmap
+        );
+    glLoadTileSet(
+            sprites->ballB,
+            32, 32, 32, 32,
+            GL_RGB16,
+            TEXTURE_SIZE_32, TEXTURE_SIZE_32,
+            GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF |
+                GL_TEXTURE_COLOR0_TRANSPARENT,
+            16,
+            (u16*) poolBallB_imagePal,
+            (u8*)  poolBallB_imageBitmap
+        );
+    glLoadTileSet(
+            sprites->blackBall,
+            32, 32, 32, 32,
+            GL_RGB16,
+            TEXTURE_SIZE_32, TEXTURE_SIZE_32,
+            GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF |
+                GL_TEXTURE_COLOR0_TRANSPARENT,
+            16,
+            (u16*) blackBall_imagePal,
+            (u8*)  blackBall_imageBitmap
+        );
+    glLoadTileSet(
+            sprites->cueBall,
+            32, 32, 32, 32,
+            GL_RGB16,
+            TEXTURE_SIZE_32, TEXTURE_SIZE_32,
+            GL_TEXTURE_WRAP_S | GL_TEXTURE_WRAP_T | TEXGEN_OFF |
+                GL_TEXTURE_COLOR0_TRANSPARENT,
+            16,
+            (u16*) cueBall_imagePal,
+            (u8*)  cueBall_imageBitmap
+        );
+    // TODO load cueBall
+    // TODO load cueStick
+}
+
 void setBalls(PoolTable *table) {
+    // TODO: do a better job or arranging the balls
+    //          * move them in the optimal spots and make
+    //            the black ball index 0.
     // [ball id][x, y coords]
     int tableLUT[15][2] = {
         { 79, 87 }, { 69, 81 }, { 69, 93 },  // Balls 0-2
@@ -37,6 +108,10 @@ void setBalls(PoolTable *table) {
 }
 
 void renderTable(PoolTable* table) {
+    // Render table background
+    glSprite(0, 0, GL_FLIP_NONE, table->sprites->background);
+
+    // Render each ball
     for (int i = 0; i < 15; i++) {
         renderBall(&table->balls[i]);
     }
@@ -64,4 +139,3 @@ void printTable(PoolTable table) {
     }
     iprintf("--------------------------------\n");
 }
-

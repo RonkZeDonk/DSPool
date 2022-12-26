@@ -2,6 +2,7 @@
 #define POOL_TABLE_INCLUDE
 
 #include <nds.h>
+#include <gl2d.h>
 #include <stdio.h>
 
 #include "ball.h"
@@ -14,13 +15,26 @@
 #define DELTA_VEL 2
 
 /**
+ * The sprites that the table can render
+ */
+typedef struct {
+    glImage background[1];
+    glImage ballA[1];
+    glImage ballB[1];
+    glImage cueBall[1];
+    glImage cueStick[1];
+    glImage blackBall[1];
+} TableSprites;
+
+/**
  * Pool table struct
  */
 typedef struct {
     // Each pool table contains 15 balls
     Ball balls[15];
 
- //   u16* ball_sprite_mem;
+    // Sprites
+    TableSprites* sprites;
 } PoolTable;
 
 // *******************
@@ -30,14 +44,19 @@ typedef struct {
 /**
  * Creates a classic pool table and sets the ball's coords accordingly
  */
-PoolTable initTable();
+PoolTable initTable(TableSprites* sprites);
+
+/**
+ * Loads the table's sprites
+ */
+void loadTableSprites(TableSprites* sprites);
 
 /**
  * Set balls on table
  *
  * @param table The table which is to be set
  */
-void setBalls(PoolTable *table);
+void setBalls(PoolTable* table);
 
 /**
  * Render all the balls on the table

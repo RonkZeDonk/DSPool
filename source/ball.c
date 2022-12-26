@@ -1,17 +1,12 @@
 #include "table.h"
 
-#include "poolBall_image.h"
-
-Ball initBall(int id, BallColour colour, u16* gfx_mem, int x, int y) {
-    Ball ball = {
-        id,     // Ball ID
-        colour, // Ball colour
-        gfx_mem,// Ball's gfx
-        x, y,   // Positions
-        0, 0    // Velocities
+Ball initBall(int id, Team team, glImage sprite[1], int x, int y) {
+    return (Ball){
+        team,           // Ball's team
+        { sprite[0] },  // Ball's graphics
+        x, y,           // X and Y position of ball
+        0, 0            // X and Y velocity of ball
     };
-
-    return ball;
 }
 
 void updateBallPosition(Ball* ball) {
@@ -58,9 +53,5 @@ void updateBallPosition(Ball* ball) {
 }
 
 void renderBall(Ball* ball) {
-    dmaCopy(poolBall_imageTiles, ball->gfx_mem, poolBall_imageTilesLen);
-
-    oamSet(&oamSub, ball->id, ball->x, ball->y, 0, 0, SpriteSize_32x32,
-            SpriteColorFormat_256Color, ball->gfx_mem, 0,
-            false, false, false, false, false);
+    glSprite(ball->x, ball->y, GL_FLIP_NONE, ball->sprite);
 }

@@ -13,8 +13,7 @@ PoolTable initTable(TableSprites* sprites) {
     table.sprites = sprites;
 
     for (int i = 0; i < 15; i++) {
-        // TODO: change to index 0 later
-        if (i == 4) {
+        if (i == 0) {
             table.balls[i] = initBall(i, BlackBall, sprites->blackBall, 0, 0);
         } else if (i % 2 == 0) {
             table.balls[i] = initBall(i, TeamA, sprites->ballA, 0, 0);
@@ -89,16 +88,13 @@ void loadTableSprites(TableSprites* sprites) {
 }
 
 void setBalls(PoolTable *table) {
-    // TODO: do a better job or arranging the balls
-    //          * move them in the optimal spots and make
-    //            the black ball index 0.
     // [ball id][x, y coords]
     int tableLUT[15][2] = {
-        { 79, 87 }, { 69, 81 }, { 69, 93 },  // Balls 0-2
-        { 59, 75 }, { 59, 87 }, { 59, 99 },  // Balls 3-5
-        { 49, 69 }, { 49, 81 }, { 49, 93 },  // Balls 6-8
-        { 49, 105 }, { 39, 63 }, { 39, 75 }, // Balls 9-11
-        { 39, 87 }, { 39, 99 }, { 39, 111 }, // Balls 12-15
+        { 59, 87 }, { 69, 81 }, { 69, 93 },  // Balls 0-2
+        { 39, 111 }, { 79, 87 }, { 59, 99 },  // Balls 3-5
+        { 49, 81 }, { 49, 69 }, { 49, 105 },  // Balls 6-8
+        { 49, 93 }, { 59, 75 }, { 39, 75 }, // Balls 9-11
+        { 39, 87 }, { 39, 99 }, { 39, 63 }, // Balls 12-15
     };
 
     for (int i = 0; i < 15; i++) {

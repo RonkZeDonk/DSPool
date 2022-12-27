@@ -74,7 +74,7 @@ void updateTablePositions(PoolTable* table);
 /**
  * Prints out the x and y coords of every ball in a table.
  */
-void printTable(PoolTable table);
+void printTable(PoolTable* table);
 
 /**
  * Puts the cue on the screen

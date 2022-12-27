@@ -61,7 +61,7 @@ int main(void) {
         updateTablePositions(&table);
 
         // Print out the ball positions
-        printTable(table);
+        printTable(&table);
 
         // Show selected ball
         iprintf("\x1b[%d;0H>", selectedBall + 3);

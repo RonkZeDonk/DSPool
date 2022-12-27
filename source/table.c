@@ -140,15 +140,15 @@ void updateTablePositions(PoolTable* table) {
     }
 }
 
-void printTable(PoolTable table) {
+void printTable(PoolTable* table) {
     iprintf("\x1b[3;0H");
     for (int i = 0; i < 16; i++) {
         iprintf(" P(%6d,%6d)\tV(%3d,%3d)\n",
-                table.balls[i].x,
-                table.balls[i].y,
+                table->balls[i].x,
+                table->balls[i].y,
 
-                table.balls[i].xVel,
-                table.balls[i].yVel
+                table->balls[i].xVel,
+                table->balls[i].yVel
                 );
         iprintf("                               \r");
     }

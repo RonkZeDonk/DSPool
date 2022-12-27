@@ -12,7 +12,8 @@ typedef enum {
     TeamA,
     TeamB,
 
-    BlackBall
+    BlackBall,
+    CueBall,
 } Team;
 
 /**

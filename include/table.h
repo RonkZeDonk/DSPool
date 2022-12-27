@@ -31,7 +31,7 @@ typedef struct {
  */
 typedef struct {
     // Each pool table contains 15 balls
-    Ball balls[15];
+    Ball balls[16];
 
     // Sprites
     TableSprites* sprites;
@@ -62,8 +62,9 @@ void setBalls(PoolTable* table);
  * Render all the balls on the table
  *
  * @param table The table to render
+ * @param angle The angle to display the cue at
  */
-void renderTable(PoolTable* table);
+void renderTable(PoolTable* table, int angle);
 
 /**
  * Update the positions of all the balls on the table
@@ -74,5 +75,12 @@ void updateTablePositions(PoolTable* table);
  * Prints out the x and y coords of every ball in a table.
  */
 void printTable(PoolTable table);
+
+/**
+ * Puts the cue on the screen
+ *
+ * Distance Range: Any number < 57 and not 0
+ */
+void renderCue(PoolTable* table, int distance, int angle);
 
 #endif // POOL_TABLE_INCLUDE

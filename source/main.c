@@ -25,6 +25,7 @@ int main(void) {
 //---------------------------------------------------------------------------------
     int ballRndMoveAmount;
     int selectedBall = 0;
+    int angle = 0;
 
     // Sprites used in the table
     TableSprites sprites;
@@ -72,7 +73,7 @@ int main(void) {
 
         glBegin2D();
         {
-            renderTable(&table);
+            renderTable(&table, angle);
         }
         glEnd2D();
 
@@ -95,31 +96,19 @@ int main(void) {
         if (keys & KEY_START) break;
 
         // TODO Remove debug statements
-        // Key pressed was `A` then move balls back to default place
-        if (nonrepeatingKeysHeld & KEY_A) {
+        if (nonrepeatingKeysHeld & KEY_SELECT) {
             setBalls(&table);
+            angle = 0;
         }
 
         // TODO remove debug statements
-        if (nonrepeatingKeysHeld & KEY_B) {
-            ballRndMoveAmount = rand() % 30;
-            // Increase a random ball's velocity
-            table.balls[selectedBall].xVel -= ballRndMoveAmount;
-            table.balls[selectedBall].yVel -= ballRndMoveAmount;
-        }
-
-        // TODO remove debug statements
-        if (nonrepeatingKeysHeld & KEY_X) {
-            ballRndMoveAmount = rand() % 30;
-            // Increase a random ball's velocity
-            table.balls[selectedBall].xVel += ballRndMoveAmount;
-            table.balls[selectedBall].yVel += ballRndMoveAmount;
-        }
+        if (nonrepeatingKeysHeld & KEY_B && selectedBall > 0) selectedBall--;
+        if (nonrepeatingKeysHeld & KEY_X && selectedBall < 15) selectedBall++;
 
         // TODO remove debug statements
         if (nonrepeatingKeysHeld & KEY_Y) {
             // Change velocity by -30 - 30 spaces
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i < 16; i++) {
                 // 50% chance of moving the ball
                 if (rand() % 2 == 0) {
                     ballRndMoveAmount = rand() % 60 - 30;
@@ -129,9 +118,9 @@ int main(void) {
             }
         }
 
-        // TODO REMOVE: Change currently selected ball
-        if (nonrepeatingKeysHeld & KEY_L && selectedBall > 0) selectedBall--;
-        if (nonrepeatingKeysHeld & KEY_R && selectedBall < 14) selectedBall++;
+        // TODO REMOVE
+        if (keys & KEY_L) angle -= 100;
+        if (keys & KEY_R) angle += 100;
 
         // TODO REMOVE: Move the currently selected ball
         if (keys & KEY_UP)    table.balls[selectedBall].y += -1;

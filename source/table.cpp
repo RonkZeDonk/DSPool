@@ -150,19 +150,19 @@ void PoolTable::printTable() {
 }
 
 void PoolTable::renderCue(int distance) {
-    const int angleMultiplier = 20;
-    const int centreOffset = 6;
+    const int ANGLE_MULTIPLIER = 20;
+    const int CENTRE_OFFSET = 6;
 
     // Straighten cue
     this->cuestickAngle += 620;
 
     int x = this->balls[15].xPos;
     int y = this->balls[15].yPos;
-    int angle = this->cuestickAngle - (angleMultiplier * distance);
+    int angle = this->cuestickAngle - (ANGLE_MULTIPLIER * distance);
 
     glSpriteRotate(
-            (x + centreOffset) + (cosLerp(this->cuestickAngle) / distance),
-            (y + centreOffset) + (sinLerp(this->cuestickAngle) / distance),
+            (x + CENTRE_OFFSET) + (cosLerp(this->cuestickAngle) / distance),
+            (y + CENTRE_OFFSET) + (sinLerp(this->cuestickAngle) / distance),
             angle,
             GL_FLIP_NONE, this->sprites->cueStick
         );

@@ -2,7 +2,7 @@
 #include <gl2d.h>
 #include <time.h>
 
-#include "table.h"
+#include "table.hpp"
 
 /**
  * Puts the DS' thread to sleep for n frames
@@ -25,10 +25,6 @@ int main(void) {
 //---------------------------------------------------------------------------------
     int ballRndMoveAmount;
     int selectedBall = 0;
-    int angle = 0;
-
-    // Sprites used in the table
-    TableSprites sprites;
 
     // Used to see where the user is touching
     touchPosition touch;
@@ -54,14 +50,14 @@ int main(void) {
     iprintf("--------------------------------\n");
 
     // Create pool table
-    PoolTable table = initTable(&sprites);
+    PoolTable* table = new PoolTable();
 
     while(1) {
         // Update the balls based on acumulated velocites
-        updateTablePositions(&table);
+        table->updateTablePositions();
 
         // Print out the ball positions
-        printTable(&table);
+        table->printTable();
 
         // Show selected ball
         iprintf("\x1b[%d;0H>", selectedBall + 3);
@@ -73,7 +69,7 @@ int main(void) {
 
         glBegin2D();
         {
-            renderTable(&table, angle);
+            table->renderTable();
         }
         glEnd2D();
 
@@ -97,8 +93,7 @@ int main(void) {
 
         // TODO Remove debug statements
         if (nonrepeatingKeysHeld & KEY_SELECT) {
-            setBalls(&table);
-            angle = 0;
+            table->setBalls();
         }
 
         // TODO remove debug statements
@@ -112,21 +107,21 @@ int main(void) {
                 // 50% chance of moving the ball
                 if (rand() % 2 == 0) {
                     ballRndMoveAmount = rand() % 60 - 30;
-                    table.balls[i].xVel += ballRndMoveAmount;
-                    table.balls[i].yVel += ballRndMoveAmount;
+                    table->balls[i].xVel += ballRndMoveAmount;
+                    table->balls[i].yVel += ballRndMoveAmount;
                 }
             }
         }
 
         // TODO REMOVE
-        if (keys & KEY_L) angle -= 100;
-        if (keys & KEY_R) angle += 100;
+        if (keys & KEY_L) table->cuestickAngle -= 100;
+        if (keys & KEY_R) table->cuestickAngle += 100;
 
         // TODO REMOVE: Move the currently selected ball
-        if (keys & KEY_UP)    table.balls[selectedBall].y += -1;
-        if (keys & KEY_DOWN)  table.balls[selectedBall].y += 1;
-        if (keys & KEY_LEFT)  table.balls[selectedBall].x += -1;
-        if (keys & KEY_RIGHT) table.balls[selectedBall].x += 1;
+        if (keys & KEY_UP)    table->balls[selectedBall].yPos += -1;
+        if (keys & KEY_DOWN)  table->balls[selectedBall].yPos += 1;
+        if (keys & KEY_LEFT)  table->balls[selectedBall].xPos += -1;
+        if (keys & KEY_RIGHT) table->balls[selectedBall].xPos += 1;
     }
 
     return 0;

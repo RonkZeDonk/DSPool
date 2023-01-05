@@ -41,8 +41,8 @@ void Ball::updateBallPosition() {
         this->xPos = 15;
         this->xVel *= -1;
     }
-    if (this->yPos < 15)  {
-        this->yPos = 15;
+    if (this->yPos < 16)  {
+        this->yPos = 16;
         this->yVel *= -1;
     }
     if (this->xPos > 229) {

@@ -7,9 +7,6 @@
 
 #include "ball.hpp"
 
-// Deceleration of the pool balls
-#define DELTA_VEL 2
-
 /**
  * The sprites that the table can render
  */

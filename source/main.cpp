@@ -46,7 +46,7 @@ int main(void) {
     srand(time(NULL));
 
     iprintf("\n");
-    iprintf("         Current Table:        \n");
+    iprintf("    Current Table (Pos, Vel)   \n");
     iprintf("--------------------------------\n");
 
     // Create pool table
@@ -102,11 +102,11 @@ int main(void) {
 
         // TODO remove debug statements
         if (nonrepeatingKeysHeld & KEY_Y) {
-            // Change velocity by -30 - 30 spaces
+            // Change velocity by -16 to 16 units
             for (int i = 0; i < 16; i++) {
                 // 50% chance of moving the ball
                 if (rand() % 2 == 0) {
-                    ballRndMoveAmount = rand() % 60 - 30;
+                    ballRndMoveAmount = (rand() % inttof32(32)) - inttof32(16);
                     table->balls[i].xVel += ballRndMoveAmount;
                     table->balls[i].yVel += ballRndMoveAmount;
                 }
@@ -118,10 +118,10 @@ int main(void) {
         if (keys & KEY_R) table->cuestickAngle += 100;
 
         // TODO REMOVE: Move the currently selected ball
-        if (keys & KEY_UP)    table->balls[selectedBall].yPos += -1;
-        if (keys & KEY_DOWN)  table->balls[selectedBall].yPos += 1;
-        if (keys & KEY_LEFT)  table->balls[selectedBall].xPos += -1;
-        if (keys & KEY_RIGHT) table->balls[selectedBall].xPos += 1;
+        if (keys & KEY_UP)    table->balls[selectedBall].yPos += inttof32(-1);
+        if (keys & KEY_DOWN)  table->balls[selectedBall].yPos += inttof32(1);
+        if (keys & KEY_LEFT)  table->balls[selectedBall].xPos += inttof32(-1);
+        if (keys & KEY_RIGHT) table->balls[selectedBall].xPos += inttof32(1);
     }
 
     return 0;

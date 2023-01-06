@@ -24,15 +24,15 @@ class Ball {
         // The ball's graphics
         glImage sprite[1];
 
-        // Ball x position
-        int xPos;
-        // Ball y position
-        int yPos;
+        // Ball x position. Represented as a 20.12 fixed point number.
+        int32 xPos;
+        // Ball y position. Represented as a 20.12 fixed point number.
+        int32 yPos;
 
-        // Ball x velocity
-        int xVel;
-        // Ball y velocity
-        int yVel;
+        // Ball x velocity. Represented as a 20.12 fixed point number.
+        int32 xVel;
+        // Ball y velocity. Represented as a 20.12 fixed point number.
+        int32 yVel;
 
         // ---- FUNCTIONS ----
 

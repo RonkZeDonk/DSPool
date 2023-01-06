@@ -106,8 +106,8 @@ void PoolTable::setBalls() {
     };
 
     for (int i = 0; i < 16; i++) {
-        this->balls[i].xPos = tableLUT[i][0];
-        this->balls[i].yPos = tableLUT[i][1];
+        this->balls[i].xPos = inttof32(tableLUT[i][0]);
+        this->balls[i].yPos = inttof32(tableLUT[i][1]);
     }
 
     this->cuestickAngle = 0;
@@ -137,27 +137,37 @@ void PoolTable::updateTablePositions() {
 void PoolTable::printTable() {
     iprintf("\x1b[3;0H");
     for (int i = 0; i < 16; i++) {
-        iprintf(" P(%6d,%6d)\tV(%3d,%3d)\n",
-                this->balls[i].xPos,
-                this->balls[i].yPos,
+        iprintf(" (%3ld,%3ld) (%3ld.%04ld,%3ld.%04ld) \n",
+                f32toint(this->balls[i].xPos),
+                f32toint(this->balls[i].yPos),
 
-                this->balls[i].xVel,
-                this->balls[i].yVel
-                );
+                f32toint(this->balls[i].xVel),
+                // Display the fraction part of the the fixed number
+                // 2s compliment if negitive vel
+                (this->balls[i].xVel > 0) ?
+                    this->balls[i].xVel & 0xFFF :
+                    -this->balls[i].xVel & 0xFFF,
+
+                f32toint(this->balls[i].yVel),
+                // Same as above here
+                (this->balls[i].yVel > 0) ?
+                    this->balls[i].yVel & 0xFFF :
+                    -this->balls[i].yVel & 0xFFF
+        );
         iprintf("                               \r");
     }
     iprintf("--------------------------------\n");
 }
 
 void PoolTable::renderCue(int distance) {
-    const int ANGLE_MULTIPLIER = 20;
-    const int CENTRE_OFFSET = 6;
+    static const int ANGLE_MULTIPLIER = 20;
+    static const int CENTRE_OFFSET = 6;
 
     // Straighten cue
     this->cuestickAngle += 620;
 
-    int x = this->balls[15].xPos;
-    int y = this->balls[15].yPos;
+    int x = f32toint(this->balls[15].xPos);
+    int y = f32toint(this->balls[15].yPos);
     int angle = this->cuestickAngle - (ANGLE_MULTIPLIER * distance);
 
     glSpriteRotate(

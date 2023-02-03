@@ -107,8 +107,8 @@ int main(void) {
                 // 50% chance of moving the ball
                 if (rand() % 2 == 0) {
                     ballRndMoveAmount = (rand() % inttof32(32)) - inttof32(16);
-                    table->balls[i].xVel += ballRndMoveAmount;
-                    table->balls[i].yVel += ballRndMoveAmount;
+                    table->balls[i].velocity.x += ballRndMoveAmount;
+                    table->balls[i].velocity.y += ballRndMoveAmount;
                 }
             }
         }
@@ -118,10 +118,10 @@ int main(void) {
         if (keys & KEY_R) table->cuestickAngle += 100;
 
         // TODO REMOVE: Move the currently selected ball
-        if (keys & KEY_UP)    table->balls[selectedBall].yPos += inttof32(-1);
-        if (keys & KEY_DOWN)  table->balls[selectedBall].yPos += inttof32(1);
-        if (keys & KEY_LEFT)  table->balls[selectedBall].xPos += inttof32(-1);
-        if (keys & KEY_RIGHT) table->balls[selectedBall].xPos += inttof32(1);
+        if (keys & KEY_UP)    table->balls[selectedBall].position.y += inttof32(-1);
+        if (keys & KEY_DOWN)  table->balls[selectedBall].position.y += inttof32(1);
+        if (keys & KEY_LEFT)  table->balls[selectedBall].position.x += inttof32(-1);
+        if (keys & KEY_RIGHT) table->balls[selectedBall].position.x += inttof32(1);
     }
 
     return 0;

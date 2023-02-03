@@ -106,8 +106,8 @@ void PoolTable::setBalls() {
     };
 
     for (int i = 0; i < 16; i++) {
-        this->balls[i].xPos = inttof32(tableLUT[i][0]);
-        this->balls[i].yPos = inttof32(tableLUT[i][1]);
+        this->balls[i].position.x = inttof32(tableLUT[i][0]);
+        this->balls[i].position.y = inttof32(tableLUT[i][1]);
     }
 
     this->cuestickAngle = 0;
@@ -128,7 +128,7 @@ void PoolTable::renderTable() {
 
 void PoolTable::updateTablePositions() {
     for (int i = 0; i < 16; i++) {
-        if (this->balls[i].xVel != 0 || this->balls[i].yVel != 0) {
+        if (this->balls[i].velocity.x != 0 || this->balls[i].velocity.y != 0) {
             this->balls[i].updateBallPosition();
         }
     }
@@ -138,21 +138,21 @@ void PoolTable::printTable() {
     iprintf("\x1b[3;0H");
     for (int i = 0; i < 16; i++) {
         iprintf(" (%3ld,%3ld) (%3ld.%04ld,%3ld.%04ld) \n",
-                f32toint(this->balls[i].xPos),
-                f32toint(this->balls[i].yPos),
+                f32toint(this->balls[i].position.x),
+                f32toint(this->balls[i].position.y),
 
-                f32toint(this->balls[i].xVel),
+                f32toint(this->balls[i].velocity.x),
                 // Display the fraction part of the the fixed number
                 // 2s compliment if negitive vel
-                (this->balls[i].xVel > 0) ?
-                    this->balls[i].xVel & 0xFFF :
-                    -this->balls[i].xVel & 0xFFF,
+                (this->balls[i].velocity.x > 0) ?
+                    this->balls[i].velocity.x & 0xFFF :
+                    -this->balls[i].velocity.x & 0xFFF,
 
-                f32toint(this->balls[i].yVel),
+                f32toint(this->balls[i].velocity.y),
                 // Same as above here
-                (this->balls[i].yVel > 0) ?
-                    this->balls[i].yVel & 0xFFF :
-                    -this->balls[i].yVel & 0xFFF
+                (this->balls[i].velocity.y > 0) ?
+                    this->balls[i].velocity.y & 0xFFF :
+                    -this->balls[i].velocity.y & 0xFFF
         );
         iprintf("                               \r");
     }
@@ -166,8 +166,8 @@ void PoolTable::renderCue(int distance) {
     // Straighten cue
     this->cuestickAngle += 620;
 
-    int x = f32toint(this->balls[15].xPos);
-    int y = f32toint(this->balls[15].yPos);
+    int x = f32toint(this->balls[15].position.x);
+    int y = f32toint(this->balls[15].position.y);
     int angle = this->cuestickAngle - (ANGLE_MULTIPLIER * distance);
 
     glSpriteRotate(

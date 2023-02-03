@@ -5,6 +5,8 @@
 #include <gl2d.h>
 #include <stdio.h>
 
+#include "vector2d.hpp"
+
 /**
  * Possible teams for pool balls
  */
@@ -24,15 +26,11 @@ class Ball {
         // The ball's graphics
         glImage sprite[1];
 
-        // Ball x position. Represented as a 20.12 fixed point number.
-        int32 xPos;
-        // Ball y position. Represented as a 20.12 fixed point number.
-        int32 yPos;
+        // Ball's position vector. Represented as a 20.12 fixed point number.
+        Vector2D position;
 
-        // Ball x velocity. Represented as a 20.12 fixed point number.
-        int32 xVel;
-        // Ball y velocity. Represented as a 20.12 fixed point number.
-        int32 yVel;
+        // Ball's velocity vector. Represented as a 20.12 fixed point number.
+        Vector2D velocity;
 
         // ---- FUNCTIONS ----
 

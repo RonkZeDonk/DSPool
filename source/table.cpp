@@ -1,4 +1,5 @@
 #include "table.hpp"
+#include "ray.hpp"
 
 #include "poolBallA_image.h"
 #include "poolBallB_image.h"
@@ -179,4 +180,35 @@ void PoolTable::renderCue(int distance) {
 
     // Reset cuestick angle
     this->cuestickAngle -= 620;
+
+    // Draw ball trajectory
+    Vector2D pos = Vector2D(inttof32(x), inttof32(y));
+    Vector2D hitpos = Ray(pos, degreesToAngle(180) + this->cuestickAngle).shootRay(this->balls);
+    drawDottedLine(
+        &pos,
+        &hitpos,
+        RGB8(0, 0, 0),
+        8
+    );
+}
+
+void drawDottedLine(Vector2D* p1, Vector2D* p2, int color, int numOfDots) {
+    numOfDots--;
+
+    int distX = p2->x - p1->x;
+    int distY = p2->y - p1->y;
+
+    int xSectionSize = distX / numOfDots;
+    int ySectionSize = distY / numOfDots;
+
+    int xOffset = f32toint(p1->x) + 5;
+    int yOffset = f32toint(p1->y) + 5;
+
+    for (int i = 0; i <= numOfDots; i++) {
+        glPutPixel(
+            xOffset + f32toint(xSectionSize * i),
+            yOffset + f32toint(ySectionSize * i),
+            color
+        );
+    }
 }

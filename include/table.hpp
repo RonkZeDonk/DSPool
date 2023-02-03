@@ -73,4 +73,6 @@ class PoolTable {
         void renderCue(int distance);
 };
 
+void drawDottedLine(Vector2D* p1, Vector2D* p2, int color, int numOfDots);
+
 #endif // POOL_TABLE_INCLUDE

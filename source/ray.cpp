@@ -8,7 +8,8 @@ Ray::Ray(Vector2D position, int angle) {
 
 Vector2D Ray::shootRay(Ball balls[16]) {
     // From table.cpp updateTablePosition COLLIDE_DISTANCE
-    int COLLIDE_DISTANCE = 45000 / 2;
+    // TODO this constant doesn't exist in the other file yet
+    int COLLIDE_DISTANCE = 49000 / 2;
     Vector2D hitpos = this->position;
     this->directionVector = Vector2D(
         cosLerp(this->angle),

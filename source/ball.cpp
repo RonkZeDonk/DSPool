@@ -16,7 +16,7 @@ void Ball::updateBallPosition() {
     const static int CONSERVED_ENERGY_PERCENT = 97;
 
     // Apply velocity
-    this->position = this->position.plus(this->velocity);
+    this->position += this->velocity;
 
     // Apply friction to the ball
     this->velocity.x = (this->velocity.x * CONSERVED_ENERGY_PERCENT) / 100;

@@ -25,11 +25,12 @@ Vector2D Ray::shootRay(Ball balls[16]) {
         for (int i = 0; i < 15; i++) {
             Vector2D* vec = &balls[i].position;
             // if hitpos is within `radius` of the ball then resolve hit
-            if (hitpos.minus(*vec).length() <= COLLIDE_DISTANCE) {
+            // if (hitpos.minus(*vec).length() <= COLLIDE_DISTANCE) {
+            if ((hitpos - *vec).length() <= COLLIDE_DISTANCE) {
                 return hitpos;
             }
         }
-        hitpos = hitpos.plus(this->directionVector);
+        hitpos = hitpos + this->directionVector;
     }
     return hitpos;
 }

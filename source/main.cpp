@@ -29,7 +29,7 @@ int main(void) {
     // Used to see where the user is touching
     touchPosition touch;
 
-    // Initalize bottom screen
+    // Initialize bottom screen
     videoSetMode(MODE_5_3D);
     lcdMainOnBottom();
     glScreen2D();
@@ -37,7 +37,7 @@ int main(void) {
     vramSetBankE(VRAM_E_TEX_PALETTE);
     // --- end bottom screen init
 
-    // Initalize top screen
+    // Initialize top screen
     // Create a console for the top screen
     consoleDemoInit();
     // --- end top screen init
@@ -53,7 +53,7 @@ int main(void) {
     PoolTable* table = new PoolTable();
 
     while(1) {
-        // Update the balls based on acumulated velocites
+        // Update the balls based on accumulated velocities
         table->updateTablePositions();
 
         // Print out the ball positions

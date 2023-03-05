@@ -35,7 +35,7 @@ class Ball {
         // ---- FUNCTIONS ----
 
         /**
-         * Initalize pool ball
+         * Initialize pool ball
          *
          * @param team Ball team
          * @param sprite Pointer to the ball's graphics memory

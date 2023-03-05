@@ -103,7 +103,7 @@ void PoolTable::setBalls() {
         { 49, 81 }, { 49, 69 }, { 49, 105 }, // Balls 6-8
         { 49, 93 }, { 59, 75 }, { 39, 75 },  // Balls 9-11
         { 39, 87 }, { 39, 99 }, { 39, 63 },  // Balls 12-15
-        { 150, 87 }                          // Cueball
+        { 150, 87 }                          // Cue ball
     };
 
     for (int i = 0; i < 16; i++) {
@@ -144,7 +144,7 @@ void PoolTable::printTable() {
 
                 f32toint(this->balls[i].velocity.x),
                 // Display the fraction part of the the fixed number
-                // 2s compliment if negitive vel
+                // 2s compliment if negative vel
                 (this->balls[i].velocity.x > 0) ?
                     this->balls[i].velocity.x & 0xFFF :
                     -this->balls[i].velocity.x & 0xFFF,

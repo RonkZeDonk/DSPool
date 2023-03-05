@@ -49,11 +49,6 @@ class Ball {
         ~Ball() {};
 
         /**
-         * Updates a ball's velocity based on a constant deceleration
-         */
-        void updateBallPosition();
-
-        /**
          * Draws the ball
          */
         void renderBall();

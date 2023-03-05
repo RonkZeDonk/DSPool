@@ -131,8 +131,34 @@ void PoolTable::renderTable() {
 
 void PoolTable::updateTablePositions() {
     for (int i = 0; i < 16; i++) {
-        if (this->balls[i].velocity.x != 0 || this->balls[i].velocity.y != 0) {
-            this->balls[i].updateBallPosition();
+        const static int CONSERVED_ENERGY_PERCENT = 97;
+        Ball& ball = this->balls[i];
+
+        // Apply velocity
+        ball.position += ball.velocity;
+
+        // Apply friction to the ball
+        ball.velocity.x = (ball.velocity.x * CONSERVED_ENERGY_PERCENT) / 100;
+        ball.velocity.y = (ball.velocity.y * CONSERVED_ENERGY_PERCENT) / 100;
+
+        // Clamp balls to the inside of the pool table and flip their velocities
+        // TODO(commit): properly give refund movement
+        //                  - right now velocity is lost (apply CCD)
+        if (ball.position.x < inttof32(15)) {
+            ball.position.x = inttof32(15);
+            ball.velocity.x *= -1;
+        }
+        if (ball.position.x > inttof32(230)) {
+            ball.position.x = inttof32(230);
+            ball.velocity.x *= -1;
+        }
+        if (ball.position.y < inttof32(16)) {
+            ball.position.y = inttof32(16);
+            ball.velocity.y *= -1;
+        }
+        if (ball.position.y > inttof32(166)) {
+            ball.position.y = inttof32(166);
+            ball.velocity.y *= -1;
         }
     }
 }

@@ -109,6 +109,8 @@ void PoolTable::setBalls() {
     for (int i = 0; i < 16; i++) {
         this->balls[i].position.x = inttof32(tableLUT[i][0]);
         this->balls[i].position.y = inttof32(tableLUT[i][1]);
+
+        this->balls[i].velocity *= 0;
     }
 
     this->cuestickAngle = 0;

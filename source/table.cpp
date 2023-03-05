@@ -141,23 +141,20 @@ void PoolTable::updateTablePositions() {
         ball.velocity.x = (ball.velocity.x * CONSERVED_ENERGY_PERCENT) / 100;
         ball.velocity.y = (ball.velocity.y * CONSERVED_ENERGY_PERCENT) / 100;
 
-        // Clamp balls to the inside of the pool table and flip their velocities
-        // TODO(commit): properly give refund movement
-        //                  - right now velocity is lost (apply CCD)
         if (ball.position.x < inttof32(15)) {
-            ball.position.x = inttof32(15);
+            ball.position.x = inttof32(15) + (abs(inttof32(15) - ball.position.x));
             ball.velocity.x *= -1;
         }
         if (ball.position.x > inttof32(230)) {
-            ball.position.x = inttof32(230);
+            ball.position.x = inttof32(230) - (abs(inttof32(230) - ball.position.x));
             ball.velocity.x *= -1;
         }
         if (ball.position.y < inttof32(16)) {
-            ball.position.y = inttof32(16);
+            ball.position.y = inttof32(16) + (abs(inttof32(16) - ball.position.y));
             ball.velocity.y *= -1;
         }
         if (ball.position.y > inttof32(166)) {
-            ball.position.y = inttof32(166);
+            ball.position.y = inttof32(166) - (abs(inttof32(166) - ball.position.y));
             ball.velocity.y *= -1;
         }
     }

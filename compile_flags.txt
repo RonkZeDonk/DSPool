@@ -1,8 +1,6 @@
--lnds9
 -DARM9
--I/opt/devkitpro/libnds/include
--L/opt/devkitpro/libnds/lib
--I/opt/devkitpro/devkitPPC/powerpc-eabi/include
+-Idevkitpro/libnds/include
+-Idevkitpro/devkitARM/arm-none-eabi/include
 -Iinclude
 -Ibuild
 -Wall

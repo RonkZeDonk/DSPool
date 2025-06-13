@@ -1,5 +1,5 @@
 #include "vector2d.hpp"
-#include "table.hpp"
+#include "ball.hpp"
 
 class Ray {
     public:

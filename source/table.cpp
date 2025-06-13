@@ -1,3 +1,5 @@
+#include "stdio.h"
+
 #include "table.hpp"
 #include "ray.hpp"
 
@@ -163,22 +165,22 @@ void PoolTable::updateTablePositions() {
 void PoolTable::printTable() {
     iprintf("\x1b[3;0H");
     for (int i = 0; i < 16; i++) {
-        iprintf(" (%3ld,%3ld) (%3ld.%04ld,%3ld.%04ld) \n",
-                f32toint(this->balls[i].position.x),
-                f32toint(this->balls[i].position.y),
+        iprintf(" (%3d,%3d) (%3d.%04d,%3d.%04d) \n",
+                (int) f32toint(this->balls[i].position.x),
+                (int) f32toint(this->balls[i].position.y),
 
-                f32toint(this->balls[i].velocity.x),
+                (int) f32toint(this->balls[i].velocity.x),
                 // Display the fraction part of the the fixed number
                 // 2s compliment if negative vel
-                (this->balls[i].velocity.x > 0) ?
+                (int) ((this->balls[i].velocity.x > 0) ?
                     this->balls[i].velocity.x & 0xFFF :
-                    -this->balls[i].velocity.x & 0xFFF,
+                    -this->balls[i].velocity.x & 0xFFF),
 
-                f32toint(this->balls[i].velocity.y),
+                (int) f32toint(this->balls[i].velocity.y),
                 // Same as above here
-                (this->balls[i].velocity.y > 0) ?
+                (int) ((this->balls[i].velocity.y > 0) ?
                     this->balls[i].velocity.y & 0xFFF :
-                    -this->balls[i].velocity.y & 0xFFF
+                    -this->balls[i].velocity.y & 0xFFF)
         );
         iprintf("                               \r");
     }

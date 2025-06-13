@@ -1,6 +1,7 @@
 #include <nds.h>
 #include <gl2d.h>
 #include <time.h>
+#include <stdio.h>
 
 #include "table.hpp"
 

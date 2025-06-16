@@ -131,7 +131,40 @@ void PoolTable::renderTable() {
     this->renderCue(30);
 }
 
+void handleCollisions(PoolTable* t) {
+    // -- check collision --
+
+    // diameter used since all balls are the same size.
+    // this functions the same as the sum of the radii squared.
+    const int DIAMETER_SQ = inttof32(11*11);
+
+    for (int i = 0; i < 16; i++) {
+        for (int j = i+1; j < 16; j++) {
+            Ball& a = t->balls[i];
+            Ball& b = t->balls[j];
+
+            Vector2D diff = a.position - b.position;
+            int diffSqLen = diff.squareLength();
+            if (diffSqLen < DIAMETER_SQ) {
+                // resolve collision
+                Vector2D collisionNormal = diff.normalize();
+                // TODO this technically isn't correct?
+                // collision normal should be scaled by the overlapped amount
+                Vector2D overlapAdjust = collisionNormal;
+
+                a.position += overlapAdjust;
+                b.position -= overlapAdjust;
+
+                // TODO update velocities
+            }
+        }
+    }
+}
+
+// TODO add a timestep parameter
 void PoolTable::updateTablePositions() {
+    handleCollisions(this);
+
     for (int i = 0; i < 16; i++) {
         const static int CONSERVED_ENERGY_PERCENT = 97;
         Ball& ball = this->balls[i];
@@ -143,6 +176,7 @@ void PoolTable::updateTablePositions() {
         ball.velocity.x = (ball.velocity.x * CONSERVED_ENERGY_PERCENT) / 100;
         ball.velocity.y = (ball.velocity.y * CONSERVED_ENERGY_PERCENT) / 100;
 
+        // Constrain ball to table
         if (ball.position.x < inttof32(15)) {
             ball.position.x = inttof32(15) + (abs(inttof32(15) - ball.position.x));
             ball.velocity.x *= -1;

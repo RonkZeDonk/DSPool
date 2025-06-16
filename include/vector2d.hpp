@@ -28,7 +28,9 @@ class Vector2D {
         Vector2D operator/(int factor);
         void operator/=(int factor);
 
+        int32 squareLength();
         int32 length();
+        Vector2D normalize();
         int32 dot(Vector2D other);
 };
 

@@ -39,8 +39,15 @@ void Vector2D::operator/=(int factor) {
     this->y /= factor;
 }
 
+int32 Vector2D::squareLength() {
+    return mulf32(this->x, this->x) + mulf32(this->y, this->y);
+}
 int32 Vector2D::length() {
-    return sqrtf32(mulf32(this->x, this->x) + mulf32(this->y, this->y));
+    return sqrtf32(squareLength());
+}
+Vector2D Vector2D::normalize() {
+    int32 magnitude = this->length();
+    return Vector2D(divf32(this->x, magnitude), divf32(this->y, magnitude));
 }
 
 int32 vectorDotProduct(Vector2D* a, Vector2D* b) {

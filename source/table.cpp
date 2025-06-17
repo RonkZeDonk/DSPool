@@ -155,7 +155,28 @@ void handleCollisions(PoolTable* t) {
                 a.position += overlapAdjust;
                 b.position -= overlapAdjust;
 
-                // TODO update velocities
+                // Following code is based on the angle-free representation
+                // found on this Wikipedia page:
+                //
+                // https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects
+
+                // assuming masses are alike (masses cancel out)
+
+                Vector2D dPos_ab = a.position - b.position;
+                Vector2D dPos_ba = b.position - a.position;
+                Vector2D dVel_ab = a.velocity - b.velocity;
+                Vector2D dVel_ba = b.velocity - a.velocity;
+
+                int denominator = dPos_ab.squareLength();
+                // operator-= doesn't work with pass by value;
+                // use this to temporarily store the result
+                Vector2D temp;
+
+                temp = dPos_ab * divf32(dVel_ab.dot(dPos_ab), denominator);
+                a.velocity -= temp;
+
+                temp = dPos_ba * divf32(dVel_ba.dot(dPos_ba), denominator);
+                b.velocity -= temp;
             }
         }
     }

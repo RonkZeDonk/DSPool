@@ -168,15 +168,9 @@ void handleCollisions(PoolTable* t) {
                 Vec2 dVel_ba = b.velocity - a.velocity;
 
                 int denominator = dPos_ab.squareLength();
-                // operator-= doesn't work with pass by value;
-                // use this to temporarily store the result
-                Vec2 temp;
 
-                temp = dPos_ab * divf32(dVel_ab.dot(dPos_ab), denominator);
-                a.velocity -= temp;
-
-                temp = dPos_ba * divf32(dVel_ba.dot(dPos_ba), denominator);
-                b.velocity -= temp;
+                a.velocity -= dPos_ab * divf32(dVel_ab.dot(dPos_ab), denominator);
+                b.velocity -= dPos_ba * divf32(dVel_ba.dot(dPos_ba), denominator);
             }
         }
     }

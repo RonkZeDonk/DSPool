@@ -19,12 +19,19 @@ class Vec2 {
         // TODO: destructor
         ~Vec2() {};
 
-        Vec2 operator+(Vec2& other);
-        void operator+=(Vec2& other);
-        Vec2 operator-(Vec2& other);
-        void operator-=(Vec2& other);
+        Vec2 operator+(Vec2* other);
+        Vec2 operator+(Vec2 other);
+        void operator+=(Vec2* other);
+        void operator+=(Vec2 other);
+
+        Vec2 operator-(Vec2* other);
+        Vec2 operator-(Vec2 other);
+        void operator-=(Vec2* other);
+        void operator-=(Vec2 other);
+
         Vec2 operator*(int factor);
         void operator*=(int factor);
+
         Vec2 operator/(int factor);
         void operator/=(int factor);
 

@@ -5,18 +5,32 @@ Vec2::Vec2(int x, int y) {
     this->y = y;
 }
 
-Vec2 Vec2::operator+(Vec2& other) {
+Vec2 Vec2::operator+(Vec2* other) {
+    return Vec2(this->x + other->x, this->y + other->y);
+}
+Vec2 Vec2::operator+(Vec2 other) {
     return Vec2(this->x + other.x, this->y + other.y);
 }
-void Vec2::operator+=(Vec2& other) {
+void Vec2::operator+=(Vec2* other) {
+    this->x += other->x;
+    this->y += other->y;
+}
+void Vec2::operator+=(Vec2 other) {
     this->x += other.x;
     this->y += other.y;
 }
 
-Vec2 Vec2::operator-(Vec2& other) {
+Vec2 Vec2::operator-(Vec2* other) {
+    return Vec2(this->x - other->x, this->y - other->y);
+}
+Vec2 Vec2::operator-(Vec2 other) {
     return Vec2(this->x - other.x, this->y - other.y);
 }
-void Vec2::operator-=(Vec2& other) {
+void Vec2::operator-=(Vec2* other) {
+    this->x -= other->x;
+    this->y -= other->y;
+}
+void Vec2::operator-=(Vec2 other) {
     this->x -= other.x;
     this->y -= other.y;
 }

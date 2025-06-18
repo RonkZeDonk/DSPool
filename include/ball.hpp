@@ -4,7 +4,7 @@
 #include <nds.h>
 #include <gl2d.h>
 
-#include "vector2d.hpp"
+#include "vec2.hpp"
 
 /**
  * Possible teams for pool balls
@@ -26,10 +26,10 @@ class Ball {
         glImage sprite[1];
 
         // Ball's position vector. Represented as a 20.12 fixed point number.
-        Vector2D position;
+        Vec2 position;
 
         // Ball's velocity vector. Represented as a 20.12 fixed point number.
-        Vector2D velocity;
+        Vec2 velocity;
 
         // ---- FUNCTIONS ----
 

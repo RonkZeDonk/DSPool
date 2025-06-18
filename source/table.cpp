@@ -143,12 +143,12 @@ void handleCollisions(PoolTable* t) {
             Ball& a = t->balls[i];
             Ball& b = t->balls[j];
 
-            Vector2D diff = a.position - b.position;
+            Vec2 diff = a.position - b.position;
             int diffSqLen = diff.squareLength();
             if (diffSqLen < DIAMETER_SQ) {
                 // resolve collision
-                Vector2D collisionNormal = diff.normalize();
-                Vector2D overlapAdjust = collisionNormal * divf32(
+                Vec2 collisionNormal = diff.normalize();
+                Vec2 overlapAdjust = collisionNormal * divf32(
                     inttof32(11) - sqrtf32(diffSqLen), inttof32(2)
                 );
 
@@ -162,15 +162,15 @@ void handleCollisions(PoolTable* t) {
 
                 // assuming masses are alike (masses cancel out)
 
-                Vector2D dPos_ab = a.position - b.position;
-                Vector2D dPos_ba = b.position - a.position;
-                Vector2D dVel_ab = a.velocity - b.velocity;
-                Vector2D dVel_ba = b.velocity - a.velocity;
+                Vec2 dPos_ab = a.position - b.position;
+                Vec2 dPos_ba = b.position - a.position;
+                Vec2 dVel_ab = a.velocity - b.velocity;
+                Vec2 dVel_ba = b.velocity - a.velocity;
 
                 int denominator = dPos_ab.squareLength();
                 // operator-= doesn't work with pass by value;
                 // use this to temporarily store the result
-                Vector2D temp;
+                Vec2 temp;
 
                 temp = dPos_ab * divf32(dVel_ab.dot(dPos_ab), denominator);
                 a.velocity -= temp;
@@ -264,8 +264,8 @@ void PoolTable::renderCue(int distance) {
     this->cuestickAngle -= 620;
 
     // Draw ball trajectory
-    Vector2D pos = Vector2D(inttof32(x), inttof32(y));
-    Vector2D hitpos = Ray(pos, degreesToAngle(180) + this->cuestickAngle).shootRay(this->balls);
+    Vec2 pos = Vec2(inttof32(x), inttof32(y));
+    Vec2 hitpos = Ray(pos, degreesToAngle(180) + this->cuestickAngle).shootRay(this->balls);
     drawDottedLine(
         &pos,
         &hitpos,
@@ -274,7 +274,7 @@ void PoolTable::renderCue(int distance) {
     );
 }
 
-void drawDottedLine(Vector2D* p1, Vector2D* p2, int color, int numOfDots) {
+void drawDottedLine(Vec2* p1, Vec2* p2, int color, int numOfDots) {
     numOfDots--;
 
     int distX = p2->x - p1->x;

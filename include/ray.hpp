@@ -1,18 +1,18 @@
-#include "vector2d.hpp"
+#include "vec2.hpp"
 #include "ball.hpp"
 
 class Ray {
     public:
         int angle;
-        Vector2D position;
-        Vector2D directionVector;
+        Vec2 position;
+        Vec2 directionVector;
 
-        Ray(Vector2D position, int angle);
+        Ray(Vec2 position, int angle);
         Ray() {};
 
         ~Ray() {};
 
         // Shoots ray out in the direction of `angle` from `position`
         // Returns the where the ray hits a ball
-        Vector2D shootRay(Ball balls[16]);
+        Vec2 shootRay(Ball balls[16]);
 };

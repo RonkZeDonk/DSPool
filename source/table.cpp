@@ -148,9 +148,9 @@ void handleCollisions(PoolTable* t) {
             if (diffSqLen < DIAMETER_SQ) {
                 // resolve collision
                 Vector2D collisionNormal = diff.normalize();
-                // TODO this technically isn't correct?
-                // collision normal should be scaled by the overlapped amount
-                Vector2D overlapAdjust = collisionNormal;
+                Vector2D overlapAdjust = collisionNormal * divf32(
+                    inttof32(11) - sqrtf32(diffSqLen), inttof32(2)
+                );
 
                 a.position += overlapAdjust;
                 b.position -= overlapAdjust;

@@ -39,8 +39,8 @@ Vec2 Vec2::operator*(int factor) {
     return Vec2(mulf32(this->x, factor), mulf32(this->y, factor));
 }
 void Vec2::operator*=(int factor) {
-    this->x *= factor;
-    this->y *= factor;
+    this->x = mulf32(this->x, factor);
+    this->y = mulf32(this->y, factor);
 }
 
 Vec2 Vec2::operator/(int factor) {
@@ -49,8 +49,8 @@ Vec2 Vec2::operator/(int factor) {
 }
 void Vec2::operator/=(int factor) {
     assert(factor != 0);
-    this->x /= factor;
-    this->y /= factor;
+    this->x = divf32(this->x, factor);
+    this->y = divf32(this->y, factor);
 }
 
 int32 Vec2::squareLength() {

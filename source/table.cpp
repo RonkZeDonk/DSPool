@@ -181,15 +181,18 @@ void PoolTable::updateTablePositions() {
     handleCollisions(this);
 
     for (int i = 0; i < 16; i++) {
-        const static int CONSERVED_ENERGY_PERCENT = 97;
+        const int FRICTION = floattof32(0.97f);
+        const int THRESHOLD_VELOCITY = floattof32(0.00025f);
         Ball& ball = this->balls[i];
 
         // Apply velocity
         ball.position += ball.velocity;
 
         // Apply friction to the ball
-        ball.velocity.x = (ball.velocity.x * CONSERVED_ENERGY_PERCENT) / 100;
-        ball.velocity.y = (ball.velocity.y * CONSERVED_ENERGY_PERCENT) / 100;
+        ball.velocity *= FRICTION;
+        if (ball.velocity.squareLength() < THRESHOLD_VELOCITY) {
+            ball.velocity *= 0;
+        }
 
         // Constrain ball to table
         if (ball.position.x < inttof32(15)) {

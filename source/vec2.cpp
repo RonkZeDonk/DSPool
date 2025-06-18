@@ -64,10 +64,6 @@ Vec2 Vec2::normalize() {
     return Vec2(divf32(this->x, magnitude), divf32(this->y, magnitude));
 }
 
-int32 vectorDotProduct(Vec2* a, Vec2* b) {
-    return mulf32(a->x, b->x) + mulf32(a->y, b->y);
-}
-
 int32 Vec2::dot(Vec2 other) {
-    return vectorDotProduct(this, &other);
+    return mulf32(this->x, other.x) + mulf32(this->y, other.y);
 }

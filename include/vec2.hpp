@@ -41,6 +41,4 @@ class Vec2 {
         int32 dot(Vec2 other);
 };
 
-int32 vectorDotProduct(Vec2* a, Vec2* b);
-
 #endif // VEC2_INCLUDE
